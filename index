@@ -1,27 +1,132 @@
-⚡
-Desarrollado por
-Equipo Maker Dev
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <title>Memorama Pro RGB</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-"De un simple juego a una aplicación profesional"
+  <!-- Pantalla de Bienvenida (Fase 1-D) -->
+  <div id="welcome-screen" class="welcome-overlay">
+    <div class="welcome-card">
+      <div class="team-logo-badge">⚡</div>
+      <span class="team-tag">Desarrollado por</span>
+      <h1>Equipo Maker Dev</h1>
+      <p>"De un simple juego a una aplicación profesional"</p>
+      <button id="start-app-btn" class="btn-primary">Entrar al Juego 🚀</button>
+    </div>
+  </div>
 
-Entrar al Juego 🚀
-Memorama RGB
+  <main class="app-container">
+    <!-- Encabezado -->
+    <header class="header">
+      <div class="title-row">
+        <div>
+          <h1>Memorama RGB</h1>
+          <small class="subtitle-team">Por: Equipo Maker Dev</small>
+        </div>
+        <button id="restart-btn" class="btn-restart">Reiniciar</button>
+      </div>
 
-Por: Equipo Maker Dev
-Reiniciar
-Color dorso:
-          ⚡ Logo 🎨  
-Textura:  
-Foto dorso:
-📁 Elegir de Galería  ✕
-Fotos de los pares: 0/8 fotos
-🖼️ Subir de Galería  ✕
-Movimientos 0
-Tiempo 00:00
-Pares 0 / 8
-🏆
-¡Juego Completado!
+      <!-- Panel de Personalización desde Galería -->
+      <div class="custom-panel">
+        <!-- 1. Color sólido y Logo del dorso -->
+        <div class="control-row">
+          <span class="control-label">Color dorso:</span>
+          <div class="color-swatches">
+            <button class="swatch active" data-color="#1e293b" style="background: #1e293b;"></button>
+            <button class="swatch" data-color="#b91c1c" style="background: #b91c1c;"></button>
+            <button class="swatch" data-color="#6d28d9" style="background: #6d28d9;"></button>
+            <button class="swatch" data-color="#047857" style="background: #047857;"></button>
+            <button class="swatch" data-color="#8b5a2b" style="background: #8b5a2b;"></button>
+            <button id="team-logo-btn" class="btn-small btn-logo">⚡ Logo</button>
+            <label class="custom-picker-btn" title="Elegir cualquier color">
+              🎨
+              <input type="color" id="color-picker" value="#1e293b">
+            </label>
+          </div>
+        </div>
 
-Lograste encontrar todos los pares.
+        <!-- 2. Texturas del dorso -->
+        <div class="control-row">
+          <span class="control-label">Textura:</span>
+          <select id="texture-select" class="texture-select">
+            <option value="none">Lisa (Color sólido)</option>
+            <option value="rough">Rugosa / Piedra</option>
+            <option value="wood">Madera</option>
+            <option value="carbon">Fibra de Carbono</option>
+            <option value="metal">Metal Cepillado</option>
+          </select>
+        </div>
 
-Jugar de nuevo
+        <!-- 3. Foto de Galería para el Dorso (Tapa de las cartas) -->
+        <div class="control-row">
+          <span class="control-label">Foto dorso:</span>
+          <div class="gallery-btn-group">
+            <label class="btn-small btn-upload">
+              📁 Elegir de Galería
+              <input type="file" id="back-file-input" accept="image/*" hidden>
+            </label>
+            <button id="clear-back-btn" class="btn-small btn-clear" title="Quitar foto del dorso">✕</button>
+          </div>
+        </div>
+
+        <!-- 4. Fotos de Galería para los 8 Pares del Memorama -->
+        <div class="pairs-section">
+          <div class="pairs-header">
+            <div>
+              <span class="control-label">Fotos de los pares:</span>
+              <span id="pairs-status" class="pairs-status">0/8 fotos</span>
+            </div>
+            <div class="gallery-btn-group">
+              <label class="btn-small btn-pairs-upload">
+                🖼️ Subir de Galería
+                <input type="file" id="pairs-file-input" accept="image/*" multiple hidden>
+              </label>
+              <button id="clear-pairs-btn" class="btn-small btn-clear" title="Borrar todas las fotos">✕</button>
+            </div>
+          </div>
+
+          <!-- 8 casillas: toca cualquiera para elegir o cambiar esa foto desde la galería -->
+          <div id="gallery-slots" class="gallery-slots-grid"></div>
+          <input type="file" id="single-slot-input" accept="image/*" hidden>
+        </div>
+      </div>
+      
+      <!-- Estadísticas -->
+      <div class="stats-bar">
+        <div class="stat-box">
+          <span class="stat-label">Movimientos</span>
+          <span id="moves-count" class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Tiempo</span>
+          <span id="time-count" class="stat-value">00:00</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Pares</span>
+          <span id="pairs-count" class="stat-value">0 / 8</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tablero de Cartas -->
+    <section id="game-board" class="game-board"></section>
+  </main>
+
+  <!-- Modal de Victoria -->
+  <div id="win-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="trophy-icon">🏆</div>
+      <h2>¡Juego Completado!</h2>
+      <p id="final-stats">Lograste encontrar todos los pares.</p>
+      <button id="play-again-btn" class="btn-primary">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
