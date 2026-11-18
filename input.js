@@ -1,5 +1,5 @@
-// input.js — keyboard and touch/swipe input
-// canvas is defined in render.js (loaded before this file)
+
+
 // dir, nextDir, phase, start are defined in game.js (loaded after this file)
 
 // ── Keyboard ──────────────────────────────────────────────────────────────
